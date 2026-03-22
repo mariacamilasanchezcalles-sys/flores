@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flores Amarillas 💛</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(#fff8dc, #ffe4e1);
+  overflow: hidden;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/* FLOR INICIAL */
+.flower-img {
+  width: 180px;
+  cursor: pointer;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.click-text {
+  margin-top: 20px;
+  font-size: 22px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hidden { display: none; }
+
+/* ESCENA */
+.scene {
+  position: relative;
+  text-align: center;
+}
+
+.tree-img {
+  width: 300px;
+  animation: zoomOut 2s ease forwards, sway 4s ease-in-out infinite;
+}
+
+@keyframes zoomOut {
+  from { transform: scale(2); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes sway {
+  0%,100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+/* PETALOS */
+.petal {
+  position: absolute;
+  width: 25px;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* CARTA */
+.letter {
+  margin-top: 20px;
+  width: 280px;
+  padding: 20px;
+  background: #fffaf0;
+  border: 2px solid #e6d3a3;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  font-family: 'Brush Script MT', cursive;
+  font-size: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- MÚSICA -->
+<audio id="music" autoplay loop>
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<!-- INICIO -->
+<div id="start" class="center">
+  <img src="flor.png" class="flower-img" onclick="startAnimation()">
+  <div class="click-text">Haz clic aquí</div>
+</div>
+
+<!-- ESCENA -->
+<div id="scene" class="center hidden">
+  <div class="scene">
+    <img src="arbol.png" class="tree-img">
+    <div class="letter" id="letter"></div>
+  </div>
+</div>
+
+<script>
+function startAnimation() {
+  document.getElementById('start').classList.add('hidden');
+  document.getElementById('scene').classList.remove('hidden');
+  document.getElementById('music').play();
+  createPetals();
+  typeLetter();
+}
+
+function createPetals() {
+  for (let i = 0; i < 50; i++) {
+    let petal = document.createElement('img');
+    petal.src = 'flor.png';
+    petal.classList.add('petal');
+    petal.style.left = Math.random() * window.innerWidth + 'px';
+    petal.style.animationDuration = (Math.random() * 5 + 3) + 's';
+    petal.style.width = (Math.random() * 20 + 15) + 'px';
+    document.body.appendChild(petal);
+  }
+}
+
+const text = "Feliz día de las flores amarillas bro.\nPor otro año dándonos flores amarillas virtuales, LOVIU\n-Atte: Cami 2";
+
+function typeLetter() {
+  let i = 0;
+  let speed = 40;
+  function typing() {
+    if (i < text.length) {
+      document.getElementById('letter').innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+  typing();
+}
+</script>
+
+</body>
+</html>
